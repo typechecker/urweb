@@ -107,7 +107,8 @@ static void *worker(void *data) {
       int r;
       char *method, *path, *query_string, *headers, *body, *after, *s, *s2;
 
-      if (back - buf == buf_size - 1) {
+      size_t backbuf = back - buf;
+      if (backbuf == buf_size - 1) {
         char *new_buf;
         size_t new_buf_size = buf_size*2;
         if (new_buf_size > max_buf_size) {
@@ -124,7 +125,7 @@ static void *worker(void *data) {
           break;
         }
         buf_size = new_buf_size;
-        back = new_buf + (back - buf);
+        back = new_buf + backbuf;
         buf = new_buf;
       }
 
